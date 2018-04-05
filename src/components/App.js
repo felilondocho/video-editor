@@ -1,5 +1,5 @@
 import React from 'react';
-import Video from './Video';
+import VideoPlayer from './VideoPlayer';
 import '../App.css';
 
 const App = () => (
@@ -8,7 +8,7 @@ const App = () => (
       <h1 className="App-title">Welcome to React</h1>
     </header>
     <div className="appBody">
-      <Video />
+      <VideoPlayer />
     </div>
   </div>
 );
