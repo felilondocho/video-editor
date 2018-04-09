@@ -1,7 +1,7 @@
-import { PLAY, STOP, FORWARD, BACKWARD } from '../actions/actionTypes';
+import { PLAY, STOP, FORWARD, BACKWARD, SEEKBAR_CHANGE, VIDEO_TIME_CHANGE } from '../actions/actionTypes';
 
 const initialState = {
-  temp: '',
+  videoTime: 0,
 };
 
 export default function videoPlayerReducer(state = initialState, action = {}) {
@@ -17,6 +17,10 @@ export default function videoPlayerReducer(state = initialState, action = {}) {
       return state;
     case BACKWARD:
       console.log('bw');
+      return state;
+    case SEEKBAR_CHANGE:
+      return state;
+    case VIDEO_TIME_CHANGE:
       return state;
     default:
       return state;

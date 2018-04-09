@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import VideoPlayer from '../components/VideoPlayer';
-import { playVideo, pauseVideo, advanceVideo, backVideo } from '../actions/actions';
+import { playVideo, pauseVideo, advanceVideo, backVideo, seekBarChange, videoTimeChange } from '../actions/actions';
 
 const mapStateToProps = state => state;
 
-const mapDispatchToProps = dispatch => ({
-  playVideo: () => dispatch(playVideo()),
-  pauseVideo: () => dispatch(pauseVideo()),
-  advanceVideo: () => dispatch(advanceVideo()),
-  backVideo: () => dispatch(backVideo()),
-});
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    playVideo, pauseVideo, advanceVideo, backVideo, seekBarChange, videoTimeChange,
+  }, dispatch)
+);
 
 export default (connect(mapStateToProps, mapDispatchToProps)(VideoPlayer));
