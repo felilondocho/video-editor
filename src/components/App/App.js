@@ -1,13 +1,13 @@
 import React from 'react';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import '../../App.css';
+import styles from './App.scss';
 
 const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <h1 className="App-title">Welcome to React</h1>
+  <div className={styles.app}>
+    <header className={styles.appHeader}>
+      <h1 className={styles.appTitle}>Welcome to React</h1>
     </header>
-    <div className="appBody">
+    <div className={styles.appBody}>
       <VideoPlayer />
     </div>
   </div>

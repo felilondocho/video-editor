@@ -1,5 +1,4 @@
-import { PLAY, STOP, VIDEO_TIME_CHANGE } from './actionTypes';
+import { TOGGLE_PLAY, VIDEO_TIME_CHANGE } from './actionTypes';
 
-export const playVideo = () => ({ type: PLAY });
-export const pauseVideo = () => ({ type: STOP });
+export const togglePlay = isPlaying => ({ type: TOGGLE_PLAY, isPlaying });
 export const videoTimeChange = videoTime => ({ type: VIDEO_TIME_CHANGE, videoTime });
