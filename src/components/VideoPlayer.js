@@ -8,10 +8,13 @@ class VideoPlayer extends React.Component {
     super(props);
     this.playTheVideo = this.playTheVideo.bind(this);
     this.pauseTheVideo = this.pauseTheVideo.bind(this);
-    // this.handleSeekBarChange = this.handleSeekBarChange.bind(this);
     this.updateVideoTime = this.updateVideoTime.bind(this);
     this.videoRef = React.createRef();
     this.seekBarRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.seekBarRef.current.value = 0;
   }
 
   playTheVideo() {
@@ -26,27 +29,15 @@ class VideoPlayer extends React.Component {
     pauseVideo();
   }
 
-  // handleSeekBarChange(event) {
-  //   const { seekBarChange } = this.props;
-  //   const video = this.videoRef.current;
-  //   const seekBar = this.seekBarRef.current;
-  //   const time = video.duration * (event.target.value / 100);
-  //   video.currentTime = time;
-  //   seekBar.value = (100 / video.duration) * video.currentTime;
-  //   seekBarChange(time);
-  // }
-
   updateVideoTime(event) {
-    event.target.value ?
-      
-    : null;
-    // const { videoTimeChange } = this.props;
-    // const video = this.videoRef.current;
-    // const seekBar = this.seekBarRef.current;
-    // const time = video.duration * (event.target.value / 100);
-    // video.currentTime = time;
-    // seekBar.value = (100 / video.duration) * video.currentTime;
-    // videoTimeChange(video.currentTime);
+    const { videoTimeChange } = this.props;
+    const video = this.videoRef.current;
+    const seekBar = this.seekBarRef.current;
+    if (event.target.value) {
+      video.currentTime = video.duration * (event.target.value / 100);
+    }
+    seekBar.value = (100 / video.duration) * video.currentTime;
+    videoTimeChange(video.currentTime);
   }
 
   render() {
@@ -73,7 +64,6 @@ VideoPlayer.propTypes = {
   playVideo: PropTypes.func.isRequired,
   pauseVideo: PropTypes.func.isRequired,
   advanceVideo: PropTypes.func.isRequired,
-  seekBarChange: PropTypes.func.isRequired,
   videoTimeChange: PropTypes.func.isRequired,
 };
 
