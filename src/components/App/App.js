@@ -1,6 +1,6 @@
 import React from 'react';
-import VideoPlayer from '../containers/VideoPlayer';
-import '../App.css';
+import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import '../../App.css';
 
 const App = () => (
   <div className="App">
