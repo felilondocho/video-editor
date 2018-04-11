@@ -1,8 +1,9 @@
 .videoPlayer {
-  background: #000;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  width: 60%;
+  padding: 5px;
 }
 
 .videoControls {
@@ -16,12 +17,17 @@ p {
   text-align: left;
 }
 
+.videoWrapper {
+  background: #000;
+}
+
 input[type=range] {
   height: 26px;
   -webkit-appearance: none;
-  margin: 10px 0;
+  margin: 0;
+  margin-bottom: 10px;
   width: 100%;
-  background-color: #000;
+  background-color: #0B132B;
 }
 input[type=range]:focus {
   outline: none;

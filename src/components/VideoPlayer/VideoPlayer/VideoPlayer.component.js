@@ -57,22 +57,50 @@ class VideoPlayer extends React.Component {
 
   remainingTime(currentTime) {
     const { videoDuration } = this.props;
-    return Math.round(videoDuration - currentTime);
+    const timeDif = Math.round(videoDuration - currentTime);
+    const minutes = timeDif / 60 > 9 ? (
+      Math.round(timeDif / 60)
+    ) : (
+      `0${Math.round(timeDif / 60)}`
+    );
+    const seconds = timeDif > 9 ? (
+      Math.round(timeDif)
+    ) : (
+      `0${Math.round(timeDif)}`
+    );
+    return `${minutes}:${seconds}`;
+  }
+
+  currentTimeDisplay(videoTime) {
+    const { videoDuration } = this.props;
+    const minutes = Math.floor(videoTime / 60) > 9 ? (
+      Math.floor(videoTime / 60)
+    ) : (
+      `0${Math.floor(videoTime / 60)}`
+    );
+    const seconds = Math.round(videoTime) > 9 ? (
+      Math.round(videoTime)
+    ) : (
+      `0${Math.round(videoTime)}`
+    );
+    return `${minutes}:${seconds}`;
   }
 
   render() {
     const { isPlaying, videoTime, addVideoDuration } = this.props;
     return (
       <div className={styles.videoPlayer}>
-        <video
-          className="video"
-          ref={this.videoRef}
-          onTimeUpdate={this.updateVideoTime}
-          onLoadedMetadata={e => addVideoDuration(Math.round(e.currentTarget.duration))}
-        >
-          <track kind="captions" />
-          <source src={testvideo} type="video/mp4" />
-        </video>
+        <div className={styles.videoWrapper}>
+          <video
+            className="video"
+            ref={this.videoRef}
+            onTimeUpdate={this.updateVideoTime}
+            onLoadedMetadata={e => addVideoDuration(Math.round(e.currentTarget.duration))}
+          >
+            <track kind="captions" />
+            <source src={testvideo} type="video/mp4" />
+          </video>
+        </div>
         <input
           className={styles.seekBar}
           ref={this.seekBarRef}
@@ -80,7 +108,7 @@ class VideoPlayer extends React.Component {
           onChange={this.updateVideoTime}
         />
         <div className={styles.videoControls}>
-          <p>{Math.round(videoTime)}</p>
+          <p>{this.currentTimeDisplay(videoTime)}</p>
           <VideoControlButton
             className="backButton"
             icon="./assets/reverse.svg"

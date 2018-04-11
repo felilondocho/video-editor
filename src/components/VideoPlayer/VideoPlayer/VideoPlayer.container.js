@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import VideoPlayer from './VideoPlayer.render';
+import VideoPlayer from './VideoPlayer.component';
 import { togglePlay, videoTimeChange, addVideoDuration } from '../../../actions/actions';
 
 const mapStateToProps = state => state;
