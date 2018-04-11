@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import VideoControlButton from '../VideoControlButton';
 import testvideo from '../../../assets/video.mp4';
 import styles from './VideoPlayer.scss';
-// import rewindIcon from '../../../assets/reverse.svg';
-// import playIcon from '../../../assets/play.svg';
-// import forwardIcon from '../../../assets/forward.svg';
 
 class VideoPlayer extends React.Component {
   constructor(props) {
@@ -58,16 +55,32 @@ class VideoPlayer extends React.Component {
     video.currentTime -= (video.duration * 0.1);
   }
 
+  remainingTime(currentTime) {
+    const { videoDuration } = this.props;
+    return Math.round(videoDuration - currentTime);
+  }
+
   render() {
-    const { isPlaying } = this.props;
+    const { isPlaying, videoTime, addVideoDuration } = this.props;
     return (
       <div className={styles.videoPlayer}>
-        <video className="video" ref={this.videoRef} onTimeUpdate={this.updateVideoTime}>
+        <video
+          className="video"
+          ref={this.videoRef}
+          onTimeUpdate={this.updateVideoTime}
+          onLoadedMetadata={e => addVideoDuration(Math.round(e.currentTarget.duration))}
+        >
           <track kind="captions" />
           <source src={testvideo} type="video/mp4" />
         </video>
-        <input className={styles.seekBar} ref={this.seekBarRef} type="range" onChange={this.updateVideoTime} />
+        <input
+          className={styles.seekBar}
+          ref={this.seekBarRef}
+          type="range"
+          onChange={this.updateVideoTime}
+        />
         <div className={styles.videoControls}>
+          <p>{Math.round(videoTime)}</p>
           <VideoControlButton
             className="backButton"
             icon="./assets/reverse.svg"
@@ -91,6 +104,7 @@ class VideoPlayer extends React.Component {
             icon="./assets/forward.svg"
             onClick={this.forwardVideo}
           />
+          <p>{this.remainingTime(videoTime)}</p>
         </div>
       </div>
     );
@@ -101,6 +115,9 @@ VideoPlayer.propTypes = {
   togglePlay: PropTypes.func.isRequired,
   videoTimeChange: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  videoTime: PropTypes.number.isRequired,
+  addVideoDuration: PropTypes.func.isRequired,
+  videoDuration: PropTypes.number.isRequired,
 };
 
 export default VideoPlayer;

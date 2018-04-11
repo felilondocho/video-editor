@@ -5,6 +5,17 @@
   flex-direction: column;
 }
 
+.videoControls {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+p {
+  color: #fff;
+  display: inline-block;
+  text-align: left;
+}
+
 input[type=range] {
   height: 26px;
   -webkit-appearance: none;
