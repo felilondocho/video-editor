@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Clip from '../Clip';
 
 class VideoClips extends React.Component {
   constructor(props) {
@@ -11,14 +12,15 @@ class VideoClips extends React.Component {
     const clipName = `clip ${clips.length + 1}`;
     const endTime = Math.random() * videoDuration;
     const startTime = Math.random() * endTime;
-    addClip(clipName, startTime, endTime);
+    addClip(clips, clipName, startTime, endTime);
   }
   render() {
     const { clips } = this.props;
     return (
       <div>
         <button onClick={this.addTheClip}>+</button>
-        <button onClick={console.log(clips)}>log clip value</button>
+        {/* <button onClick={console.log(clips)}>log clip value</button> */}
+        {clips.map((clip, i) => <Clip key={i} clipElements={clip} />)}
       </div>
     );
   }

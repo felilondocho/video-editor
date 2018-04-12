@@ -73,10 +73,10 @@ class VideoPlayer extends React.Component {
 
   currentTimeDisplay(videoTime) {
     const { videoDuration } = this.props;
-    const minutes = Math.floor(videoTime / 60) > 9 ? (
-      Math.floor(videoTime / 60)
+    const minutes = Math.round(videoTime / 60) > 9 ? (
+      Math.round(videoTime / 60)
     ) : (
-      `0${Math.floor(videoTime / 60)}`
+      `0${Math.round(videoTime / 60)}`
     );
     const seconds = Math.round(videoTime) > 9 ? (
       Math.round(videoTime)

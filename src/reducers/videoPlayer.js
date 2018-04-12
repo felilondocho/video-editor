@@ -1,5 +1,6 @@
 import {
   TOGGLE_PLAY, VIDEO_TIME_CHANGE, ADD_VIDEO_DURATION, ADD_CLIP,
+  EDIT_CLIP, SET_CURRENT_CLIP,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -7,6 +8,7 @@ const initialState = {
   videoTime: 0,
   videoDuration: 0,
   clips: [],
+  currentClip: {},
 };
 
 export default function videoPlayerReducer(state = initialState, action = {}) {
@@ -18,7 +20,11 @@ export default function videoPlayerReducer(state = initialState, action = {}) {
     case ADD_VIDEO_DURATION:
       return { ...state, videoDuration: action.videoDuration };
     case ADD_CLIP:
-      return { ...state, clips: [...state.clips, action.clip] };
+      return { ...state, clips: action.clips };
+    case EDIT_CLIP:
+      return { ...state, clips: action.newClips };
+    case SET_CURRENT_CLIP:
+      return { ...state, currentClip: action.currentClip };
     default:
       return state;
   }
