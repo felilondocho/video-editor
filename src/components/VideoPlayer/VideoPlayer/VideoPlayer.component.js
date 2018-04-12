@@ -92,7 +92,7 @@ class VideoPlayer extends React.Component {
       <div className={styles.videoPlayer}>
         <div className={styles.videoWrapper}>
           <video
-            className="video"
+            className={styles.video}
             ref={this.videoRef}
             onTimeUpdate={this.updateVideoTime}
             onLoadedMetadata={e => addVideoDuration(Math.round(e.currentTarget.duration))}

@@ -1,5 +1,6 @@
 import React from 'react';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import VideoClipsList from '../VideoClipsList';
 import styles from './App.scss';
 
 const App = () => (
@@ -9,7 +10,7 @@ const App = () => (
     </header>
     <div className={styles.container}>
       <div className={styles.topRegion}>
-        <div className={styles.placeHolder} />
+        <VideoClipsList />
         <VideoPlayer />
       </div>
     </div>
