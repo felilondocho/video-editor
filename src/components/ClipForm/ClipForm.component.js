@@ -2,53 +2,59 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class ClipForm extends React.Component {
+  static getDerivedStateFromProps(nextProps) {
+    if (Object.keys(nextProps.currentClip).length === 0) {
+      return null;
+    }
+    return {
+      startTime: nextProps.currentClip.startTime,
+      endTime: nextProps.currentClip.endTime,
+    };
+  }
   constructor(props) {
     super(props);
-    this.startInputRef = React.createRef();
-    this.endInputRef = React.createRef();
+    this.state = ({ startTime: 0, endTime: 0 });
+    this.handleStartChange = this.handleStartChange.bind(this);
+    this.handleEndChange = this.handleEndChange.bind(this);
+    this.saveForm = this.saveForm.bind(this);
   }
-  // componentDidMount() {
-  //   const { currentClip } = this.props;
-  //   this.startInputRef.current.value = currentClip.startTime;
-  //   this.endInputRef.current.value = currentClip.endTime;
-  // }
 
-  getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps)
+  handleStartChange(event) {
+    this.setState({ startTime: Number(event.target.value) });
   }
+
+  handleEndChange(event) {
+    this.setState({ endTime: Number(event.target.value) });
+  }
+
+  saveForm() {
+    const { editClip, currentClip, clips } = this.props;
+    editClip(
+      clips, currentClip.id, currentClip.clipName,
+      this.state.startTime, this.state.endTime,
+    );
+  }
+
   render() {
     const { currentClip } = this.props;
     return (
       <div>
-        {!Object.keys(currentClip).length === 0 ?
-          <div>
-            <p>{currentClip.clipName}</p>
-            <form>
-              {/* <input
-                type="text"
-                ref={this.startInputRef}
-              />
-              <input
-                type="text"
-                ref={this.endInputRef}
-              /> */}
-            </form>
-          </div>
-        :
         <div>
           <p>{currentClip.clipName}</p>
-          <form>
-            {/* <input
+          <form onSubmit={e => e.preventDefault()}>
+            <input
               type="text"
-              ref={this.startInputRef}
+              value={this.state.startTime}
+              onChange={this.handleStartChange}
             />
             <input
               type="text"
-              ref={this.endInputRef}
-            /> */}
+              value={this.state.endTime}
+              onChange={this.handleStartChange}
+            />
+            <button onClick={this.saveForm}>save</button>
           </form>
         </div>
-        }
       </div>
     );
   }
@@ -61,6 +67,8 @@ ClipForm.propTypes = {
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number.isRequired,
   }).isRequired,
+  clips: PropTypes.arrayOf(PropTypes.object).isRequired,
+  editClip: PropTypes.func.isRequired,
 };
 
 export default ClipForm;
