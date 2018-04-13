@@ -28,11 +28,19 @@ class ClipForm extends React.Component {
   }
 
   saveForm() {
-    const { editClip, currentClip, clips } = this.props;
+    const {
+      editClip, currentClip, clips, setCurrentClip,
+    } = this.props;
     editClip(
       clips, currentClip.id, currentClip.clipName,
       this.state.startTime, this.state.endTime,
     );
+    setCurrentClip({
+      id: currentClip.id,
+      clipName: currentClip.clipName,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+    });
   }
 
   render() {
@@ -50,7 +58,7 @@ class ClipForm extends React.Component {
             <input
               type="text"
               value={this.state.endTime}
-              onChange={this.handleStartChange}
+              onChange={this.handleEndChange}
             />
             <button onClick={this.saveForm}>save</button>
           </form>
@@ -62,13 +70,14 @@ class ClipForm extends React.Component {
 
 ClipForm.propTypes = {
   currentClip: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    clipName: PropTypes.string.isRequired,
-    startTime: PropTypes.number.isRequired,
-    endTime: PropTypes.number.isRequired,
+    id: PropTypes.number,
+    clipName: PropTypes.string,
+    startTime: PropTypes.number,
+    endTime: PropTypes.number,
   }).isRequired,
   clips: PropTypes.arrayOf(PropTypes.object).isRequired,
   editClip: PropTypes.func.isRequired,
+  setCurrentClip: PropTypes.func.isRequired,
 };
 
 export default ClipForm;

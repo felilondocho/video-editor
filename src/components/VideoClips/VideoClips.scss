@@ -1,0 +1,29 @@
+.videoClips {
+  width: 20%;
+  margin: 5px;
+  background-color: #2F2F32;
+}
+.clipsTop {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  background-color: #6B0F1A;
+}
+.clipsTitle {
+  margin: 0;
+  color: #fff; 
+}
+.addButton {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: transparent;
+  margin: 10px 0;
+}
+.clipsList {
+  overflow-y: auto;
+}

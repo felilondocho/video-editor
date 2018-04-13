@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Clip from '../Clip';
+import styles from './VideoClips.scss';
 
 class VideoClips extends React.Component {
   constructor(props) {
@@ -17,10 +18,19 @@ class VideoClips extends React.Component {
   render() {
     const { clips } = this.props;
     return (
-      <div>
-        <button onClick={this.addTheClip}>+</button>
-        {/* <button onClick={console.log(clips)}>log clip value</button> */}
-        {clips.map((clip, i) => <Clip key={i} clipElements={clip} />)}
+      <div className={styles.videoClips}>
+        <div className={styles.clipsTop}>
+          <h3 className={styles.clipsTitle}>Video Clips</h3>
+          <button
+            className={styles.addButton}
+            onClick={this.addTheClip}
+          >
+            <img src="./assets/plus.svg" alt="alt" />
+          </button>
+        </div>
+        <div className={styles.clipsList}>
+          {clips.map((clip, i) => <Clip key={i} clipElements={clip} />)}
+        </div>
       </div>
     );
   }

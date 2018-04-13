@@ -1,18 +1,20 @@
 import React from 'react';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import VideoClipsList from '../VideoClipsList';
+import VideoClipsList from '../VideoClips';
 import ClipForm from '../ClipForm';
 import styles from './App.scss';
 
 const App = () => (
   <div className={styles.app}>
     <header className={styles.appHeader}>
-      <h1 className={styles.appTitle}>Welcome to React</h1>
+      <h1 className={styles.appTitle}>CLIPPIE</h1>
     </header>
     <div className={styles.container}>
-      <div className={styles.topRegion}>
+      <div className={styles.topContainer}>
         <VideoClipsList />
         <VideoPlayer />
+      </div>
+      <div className={styles.bottomContainer}>
         <ClipForm />
       </div>
     </div>
