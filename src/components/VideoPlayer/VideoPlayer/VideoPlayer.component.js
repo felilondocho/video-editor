@@ -87,7 +87,18 @@ class VideoPlayer extends React.Component {
   }
 
   render() {
-    const { isPlaying, videoTime, addVideoDuration } = this.props;
+    const {
+      isPlaying, videoTime, addVideoDuration, currentClip, togglePlay, currentClipSelected,
+    } = this.props;
+    if (this.videoRef.current) {
+      if (this.videoRef.current.currentTime !== videoTime) {
+        this.videoRef.current.currentTime = videoTime;
+      }
+      if (this.videoRef.current.currentTime >= currentClip.endTime && currentClipSelected) {
+        this.videoRef.current.pause();
+        togglePlay(false);
+      }
+    }
     return (
       <div className={styles.videoPlayer}>
         <div className={styles.videoWrapper}>
@@ -146,6 +157,13 @@ VideoPlayer.propTypes = {
   videoTime: PropTypes.number.isRequired,
   addVideoDuration: PropTypes.func.isRequired,
   videoDuration: PropTypes.number.isRequired,
+  currentClip: PropTypes.shape({
+    id: PropTypes.number,
+    clipName: PropTypes.string,
+    startTime: PropTypes.number,
+    endTime: PropTypes.number,
+  }).isRequired,
+  currentClipSelected: PropTypes.bool.isRequired,
 };
 
 export default VideoPlayer;

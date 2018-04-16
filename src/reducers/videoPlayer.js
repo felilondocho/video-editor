@@ -9,6 +9,7 @@ const initialState = {
   videoDuration: 0,
   clips: [],
   currentClip: {},
+  currentClipSelected: false,
 };
 
 export default function videoPlayerReducer(state = initialState, action = {}) {
@@ -24,7 +25,12 @@ export default function videoPlayerReducer(state = initialState, action = {}) {
     case EDIT_CLIP:
       return { ...state, clips: action.newClips };
     case SET_CURRENT_CLIP:
-      return { ...state, currentClip: action.currentClip };
+      return {
+        ...state,
+        currentClip: action.currentClip,
+        videoTime: action.videoTime,
+        currentClipSelected: action.currentClipSelected,
+      };
     default:
       return state;
   }

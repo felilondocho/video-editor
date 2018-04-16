@@ -21,4 +21,10 @@ export const editClip = (clips, id, clipName, startTime, endTime) => {
     } : clip));
   return { type: EDIT_CLIP, newClips };
 };
-export const setCurrentClip = currentClip => ({ type: SET_CURRENT_CLIP, currentClip });
+export const setCurrentClip = (currentClip, currentClipSelected) =>
+  ({
+    type: SET_CURRENT_CLIP,
+    currentClip,
+    videoTime: currentClip.startTime,
+    currentClipSelected,
+  });
