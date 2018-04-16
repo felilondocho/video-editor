@@ -10,12 +10,11 @@ class VideoClips extends React.Component {
   }
   addTheClip() {
     const { addClip, clips } = this.props;
-    const clipName = `clip ${clips.length + 1}`;
-    // const endTime = Math.random() * videoDuration;
-    // const startTime = Math.random() * endTime;
+    const id = clips.length > 0 ? clips[clips.length - 1].id + 1 : 1;
+    const clipName = `clip ${id}`;
     const endTime = 0;
     const startTime = 0;
-    addClip(clips, clipName, startTime, endTime);
+    addClip(clips, id, clipName, startTime, endTime);
   }
   render() {
     const { clips } = this.props;
@@ -40,7 +39,6 @@ class VideoClips extends React.Component {
 
 VideoClips.propTypes = {
   addClip: PropTypes.func.isRequired,
-  // videoDuration: PropTypes.number.isRequired,
   clips: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

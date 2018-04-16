@@ -11,12 +11,21 @@ class Clip extends React.Component {
     const { setCurrentClip } = this.props;
     setCurrentClip(clipElements);
   }
+  removeTheClips(clipElements, clips) {
+    const { removeClip } = this.props;
+    removeClip(clips, clipElements.id);
+  }
   render() {
-    const { clipElements } = this.props;
+    const { clipElements, clips } = this.props;
     return (
       <div className={styles.clip}>
         <p>{clipElements.clipName}</p>
-        <button onClick={() => this.setTheCurrentClip(clipElements)}>Edit</button>
+        <button onClick={() => this.setTheCurrentClip(clipElements)}>
+          <img src="./assets/edit.svg" alt="edit" />
+        </button>
+        <button onClick={() => this.removeTheClips(clipElements, clips)}>
+          <img src="./assets/cancel.svg" alt="cancel" />
+        </button>
       </div>
     );
   }
@@ -24,13 +33,14 @@ class Clip extends React.Component {
 
 Clip.propTypes = {
   setCurrentClip: PropTypes.func.isRequired,
-  // clips: PropTypes.arrayOf(PropTypes.object).isRequired,
   clipElements: PropTypes.shape({
     id: PropTypes.number.isRequired,
     clipName: PropTypes.string.isRequired,
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number.isRequired,
   }).isRequired,
+  removeClip: PropTypes.func.isRequired,
+  clips: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Clip;

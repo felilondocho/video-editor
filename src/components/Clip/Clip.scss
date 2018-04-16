@@ -3,4 +3,22 @@
   padding: 10px;
   border-bottom: #fff 1px solid;
   justify-content: space-between;
+  align-items: center;
+  p {
+    color: #fff;
+    margin: 0;
+    width: 60%;
+    text-align: left;
+  }
+  button {
+    background: transparent;
+    border: 0;
+    width: 10%;
+    padding: 0;
+    cursor: pointer;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+  }
 }

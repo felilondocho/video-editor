@@ -1,17 +1,17 @@
 import {
   TOGGLE_PLAY, VIDEO_TIME_CHANGE, ADD_VIDEO_DURATION, ADD_CLIP,
-  EDIT_CLIP, SET_CURRENT_CLIP,
+  EDIT_CLIP, SET_CURRENT_CLIP, REMOVE_CLIP,
 } from './actionTypes';
 
 export const togglePlay = isPlaying => ({ type: TOGGLE_PLAY, isPlaying });
 export const videoTimeChange = videoTime => ({ type: VIDEO_TIME_CHANGE, videoTime });
 export const addVideoDuration = videoDuration =>
   ({ type: ADD_VIDEO_DURATION, videoDuration });
-export const addClip = (clips, clipName, startTime, endTime) =>
+export const addClip = (clips, id, clipName, startTime, endTime) =>
   ({
     type: ADD_CLIP,
     clips: [...clips, {
-      id: clips.length + 1, clipName, startTime, endTime,
+      id, clipName, startTime, endTime,
     }],
   });
 export const editClip = (clips, id, clipName, startTime, endTime) => {
@@ -28,3 +28,7 @@ export const setCurrentClip = (currentClip, currentClipSelected) =>
     videoTime: currentClip.startTime,
     currentClipSelected,
   });
+export const removeClip = (clips, id) => {
+  const newClips = clips.filter(clip => clip.id !== id);
+  return { type: REMOVE_CLIP, newClips };
+};

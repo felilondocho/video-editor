@@ -9,15 +9,29 @@
   flex-direction: row;
   align-items: center;
   background-color: #6B0F1A;
+  min-height: 50px;
+  color: #fff;
 }
 .clipForm {
   display: flex;
   flex-direction: column;
+  button {
+    background: transparent;
+    border: 0;
+    width: 30px;
+    padding: 0;
+    cursor: pointer;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+  }
 }
 .formRow {
   display: flex;
   align-items: center;
   margin: 20px;
+  justify-content: space-around;
   & > * {
     width: 50%;
   }
@@ -26,9 +40,13 @@
     color: #fff;
   }
   input {
-    background: transparent;
-    border: solid #1B1B1E 1px;
+    background: #1B1B1E;
     color: #fff;
     padding: 10px;
+    border: none;
+    border-radius: 15px;
+    &:focus {
+      outline: none;
+    }
   }
 }

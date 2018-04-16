@@ -9,6 +9,7 @@
   flex-direction: row;
   align-items: center;
   background-color: #6B0F1A;
+  height: 50px;
 }
 .clipsTitle {
   margin: 0;
@@ -25,5 +26,6 @@
   margin: 10px 0;
 }
 .clipsList {
+  height: calc(100% - 50px);
   overflow-y: auto;
 }

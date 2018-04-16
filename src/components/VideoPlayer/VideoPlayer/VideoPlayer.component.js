@@ -163,7 +163,11 @@ VideoPlayer.propTypes = {
     startTime: PropTypes.number,
     endTime: PropTypes.number,
   }).isRequired,
-  currentClipSelected: PropTypes.bool.isRequired,
+  currentClipSelected: PropTypes.bool,
+};
+
+VideoPlayer.defaultProps = {
+  currentClipSelected: false,
 };
 
 export default VideoPlayer;
