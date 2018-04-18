@@ -8,14 +8,28 @@ class VideoClips extends React.Component {
     super(props);
     this.addTheClip = this.addTheClip.bind(this);
   }
+
+  setTheCurrentClip(id) {
+    const { setCurrentClip } = this.props;
+    setCurrentClip(id);
+  }
+
   addTheClip() {
     const { addClip, clips } = this.props;
     const id = clips.length > 0 ? clips[clips.length - 1].id + 1 : 1;
     const clipName = `clip ${id}`;
     const endTime = 0;
     const startTime = 0;
-    addClip(clips, id, clipName, startTime, endTime);
+    addClip({
+      id, clipName, startTime, endTime,
+    });
   }
+
+  removeTheClips(id) {
+    const { removeClip } = this.props;
+    removeClip(id);
+  }
+
   render() {
     const { clips } = this.props;
     return (
@@ -30,7 +44,14 @@ class VideoClips extends React.Component {
           </button>
         </div>
         <div className={styles.clipsList}>
-          {clips.map((clip, i) => <Clip key={i} clipElements={clip} />)}
+          {clips.map(clip => (
+            <Clip
+              key={clip.id}
+              clipElements={clip}
+              edit={() => this.setTheCurrentClip(clip.id)}
+              remove={() => this.removeTheClips(clip.id)}
+            />
+          ))}
         </div>
       </div>
     );
@@ -40,6 +61,8 @@ class VideoClips extends React.Component {
 VideoClips.propTypes = {
   addClip: PropTypes.func.isRequired,
   clips: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setCurrentClip: PropTypes.func.isRequired,
+  removeClip: PropTypes.func.isRequired,
 };
 
 export default VideoClips;

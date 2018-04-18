@@ -9,30 +9,41 @@ const initialState = {
   videoDuration: 0,
   clips: [],
   currentClip: {},
-  currentClipSelected: false,
+  clipSelected: false,
 };
 
 export default function videoPlayerReducer(state = initialState, action = {}) {
   switch (action.type) {
     case TOGGLE_PLAY:
-      return { ...state, isPlaying: action.isPlaying };
+      return { ...state, isPlaying: action.payload };
     case VIDEO_TIME_CHANGE:
-      return { ...state, videoTime: action.videoTime };
+      return { ...state, videoTime: action.payload };
     case ADD_VIDEO_DURATION:
-      return { ...state, videoDuration: action.videoDuration };
+      return { ...state, videoDuration: action.payload };
     case ADD_CLIP:
-      return { ...state, clips: action.clips };
+      return { ...state, clips: [...state.clips, action.payload] };
     case EDIT_CLIP:
-      return { ...state, clips: action.newClips };
-    case SET_CURRENT_CLIP:
       return {
         ...state,
-        currentClip: action.currentClip,
-        videoTime: action.videoTime,
-        currentClipSelected: action.currentClipSelected,
+        clips: [...state.clips]
+          .map(clip => (
+            clip.id === action.payload.id ? action.payload : clip
+          )),
       };
+    case SET_CURRENT_CLIP: {
+      const currentClip = state.clips.find(clip => clip.id === action.payload.currentClipId);
+      return {
+        ...state,
+        currentClip,
+        videoTime: currentClip.startTime,
+        clipSelected: action.payload.clipSelected,
+      };
+    }
     case REMOVE_CLIP:
-      return { ...state, clips: action.newClips };
+      return {
+        ...state,
+        clips: state.clips.filter(clip => clip.id !== action.payload),
+      };
     default:
       return state;
   }

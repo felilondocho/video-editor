@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import VideoControlButton from '../VideoControlButton';
 import testvideo from '../../../assets/video.mp4';
 import styles from './VideoPlayer.scss';
+import { remainingTime, currentTimeDisplay } from '../../../lib/timeHelper';
 
 class VideoPlayer extends React.Component {
   constructor(props) {
@@ -12,27 +13,21 @@ class VideoPlayer extends React.Component {
     this.playOrPause = this.playOrPause.bind(this);
     this.updateVideoTime = this.updateVideoTime.bind(this);
     this.videoRef = React.createRef();
-    this.seekBarRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.seekBarRef.current.value = 0;
+    this.state = ({ seekBarValue: 0 });
   }
 
   setSeekBar(duration, currentTime) {
-    const seekBar = this.seekBarRef.current;
-    seekBar.value = (100 / duration) * currentTime;
+    this.setState({ seekBarValue: (100 / duration) * currentTime });
   }
 
   playOrPause() {
     const { togglePlay, isPlaying } = this.props;
-    if (!isPlaying) {
-      this.videoRef.current.play();
-      togglePlay(true);
-    } else {
+    if (isPlaying) {
       this.videoRef.current.pause();
-      togglePlay(false);
+    } else {
+      this.videoRef.current.play();
     }
+    togglePlay(!isPlaying);
   }
 
   updateVideoTime(event) {
@@ -55,46 +50,16 @@ class VideoPlayer extends React.Component {
     video.currentTime -= (video.duration * 0.1);
   }
 
-  remainingTime(currentTime) {
-    const { videoDuration } = this.props;
-    const timeDif = Math.round(videoDuration - currentTime);
-    const minutes = timeDif / 60 > 9 ? (
-      Math.round(timeDif / 60)
-    ) : (
-      `0${Math.round(timeDif / 60)}`
-    );
-    const seconds = timeDif > 9 ? (
-      Math.round(timeDif)
-    ) : (
-      `0${Math.round(timeDif)}`
-    );
-    return `${minutes}:${seconds}`;
-  }
-
-  currentTimeDisplay(videoTime) {
-    const { videoDuration } = this.props;
-    const minutes = Math.round(videoTime / 60) > 9 ? (
-      Math.round(videoTime / 60)
-    ) : (
-      `0${Math.round(videoTime / 60)}`
-    );
-    const seconds = Math.round(videoTime) > 9 ? (
-      Math.round(videoTime)
-    ) : (
-      `0${Math.round(videoTime)}`
-    );
-    return `${minutes}:${seconds}`;
-  }
-
   render() {
     const {
-      isPlaying, videoTime, addVideoDuration, currentClip, togglePlay, currentClipSelected,
+      isPlaying, videoTime, addVideoDuration, currentClip, togglePlay, clipSelected,
+      videoDuration,
     } = this.props;
     if (this.videoRef.current) {
       if (this.videoRef.current.currentTime !== videoTime) {
         this.videoRef.current.currentTime = videoTime;
       }
-      if (this.videoRef.current.currentTime >= currentClip.endTime && currentClipSelected) {
+      if (this.videoRef.current.currentTime >= currentClip.endTime && clipSelected) {
         this.videoRef.current.pause();
         togglePlay(false);
       }
@@ -114,12 +79,12 @@ class VideoPlayer extends React.Component {
         </div>
         <input
           className={styles.seekBar}
-          ref={this.seekBarRef}
+          value={this.state.seekBarValue}
           type="range"
           onChange={this.updateVideoTime}
         />
         <div className={styles.videoControls}>
-          <p>{this.currentTimeDisplay(videoTime)}</p>
+          <p>{currentTimeDisplay(videoTime)}</p>
           <VideoControlButton
             className="backButton"
             icon="./assets/reverse.svg"
@@ -143,7 +108,7 @@ class VideoPlayer extends React.Component {
             icon="./assets/forward.svg"
             onClick={this.forwardVideo}
           />
-          <p>{this.remainingTime(videoTime)}</p>
+          <p>{remainingTime(videoTime, videoDuration)}</p>
         </div>
       </div>
     );
@@ -163,11 +128,11 @@ VideoPlayer.propTypes = {
     startTime: PropTypes.number,
     endTime: PropTypes.number,
   }).isRequired,
-  currentClipSelected: PropTypes.bool,
+  clipSelected: PropTypes.bool,
 };
 
 VideoPlayer.defaultProps = {
-  currentClipSelected: false,
+  clipSelected: false,
 };
 
 export default VideoPlayer;

@@ -33,18 +33,15 @@ class ClipForm extends React.Component {
   }
   saveForm() {
     const {
-      editClip, currentClip, clips, setCurrentClip,
+      editClip, currentClip, setCurrentClip,
     } = this.props;
-    editClip(
-      clips, currentClip.id, this.state.clipName,
-      this.state.startTime, this.state.endTime,
-    );
-    setCurrentClip({
+    editClip({
       id: currentClip.id,
       clipName: this.state.clipName,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-    }, true);
+    });
+    setCurrentClip(currentClip.id, true);
   }
   clearCurrentClip() {
     const { setCurrentClip } = this.props;
@@ -111,7 +108,6 @@ ClipForm.propTypes = {
     startTime: PropTypes.number,
     endTime: PropTypes.number,
   }).isRequired,
-  clips: PropTypes.arrayOf(PropTypes.object).isRequired,
   editClip: PropTypes.func.isRequired,
   setCurrentClip: PropTypes.func.isRequired,
 };
