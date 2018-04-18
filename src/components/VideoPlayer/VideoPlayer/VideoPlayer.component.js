@@ -16,28 +16,37 @@ class VideoPlayer extends React.Component {
     this.state = ({ seekBarValue: 0 });
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(this.props)
+    const { currentClip } = this.props;
+    if (Object.keys(currentClip).length !== 0 &&
+    (currentClip.startTime !== prevProps.currentClip.startTime)) {
+      this.videoRef.current.currentTime = currentClip.startTime;
+    }
+  }
+
   setSeekBar(duration, currentTime) {
     this.setState({ seekBarValue: (100 / duration) * currentTime });
   }
 
   playOrPause() {
     const { togglePlay, isPlaying } = this.props;
+    const video = this.videoRef.current;
     if (isPlaying) {
-      this.videoRef.current.pause();
+      video.pause();
     } else {
-      this.videoRef.current.play();
+      video.play();
     }
     togglePlay(!isPlaying);
   }
 
   updateVideoTime(event) {
-    const { videoTimeChange } = this.props;
     const video = this.videoRef.current;
+    // Seekbar change
     if (event && event.target.value) {
       video.currentTime = video.duration * (event.target.value / 100);
     }
     this.setSeekBar(video.duration, video.currentTime);
-    videoTimeChange(video.currentTime);
   }
 
   forwardVideo() {
@@ -55,15 +64,16 @@ class VideoPlayer extends React.Component {
       isPlaying, videoTime, addVideoDuration, currentClip, togglePlay, clipSelected,
       videoDuration,
     } = this.props;
-    if (this.videoRef.current) {
-      if (this.videoRef.current.currentTime !== videoTime) {
-        this.videoRef.current.currentTime = videoTime;
-      }
-      if (this.videoRef.current.currentTime >= currentClip.endTime && clipSelected) {
-        this.videoRef.current.pause();
-        togglePlay(false);
-      }
-    }
+
+    // if (this.videoRef.current) {
+    //   if (this.videoRef.current.currentTime !== videoTime) {
+    //     this.videoRef.current.currentTime = videoTime;
+    //   }
+    //   if (this.videoRef.current.currentTime >= currentClip.endTime && clipSelected) {
+    //     this.videoRef.current.pause();
+    //     togglePlay(false);
+    //   }
+    // }
     return (
       <div className={styles.videoPlayer}>
         <div className={styles.videoWrapper}>
@@ -117,9 +127,9 @@ class VideoPlayer extends React.Component {
 
 VideoPlayer.propTypes = {
   togglePlay: PropTypes.func.isRequired,
-  videoTimeChange: PropTypes.func.isRequired,
+  // videoTimeChange: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  videoTime: PropTypes.number.isRequired,
+  // videoTime: PropTypes.number.isRequired,
   addVideoDuration: PropTypes.func.isRequired,
   videoDuration: PropTypes.number.isRequired,
   currentClip: PropTypes.shape({

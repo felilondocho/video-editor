@@ -1,3 +1,3 @@
-import Clip from './Clip.container';
+import Clip from './Clip.component';
 
 export default Clip;
