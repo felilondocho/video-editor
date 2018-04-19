@@ -17,11 +17,19 @@ class VideoPlayer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props)
-    const { currentClip } = this.props;
+    const { currentClip, togglePlay } = this.props;
+    const video = this.videoRef.current;
     if (Object.keys(currentClip).length !== 0 &&
     (currentClip.startTime !== prevProps.currentClip.startTime)) {
-      this.videoRef.current.currentTime = currentClip.startTime;
+      video.currentTime = currentClip.startTime;
+    }
+    if (video.currentTime >= currentClip.endTime) {
+      video.pause();
+      togglePlay(false);
+    }
+    if (video.currentTime === video.duration) {
+      video.currentTime = 0;
+      video.play();
     }
   }
 
@@ -42,8 +50,7 @@ class VideoPlayer extends React.Component {
 
   updateVideoTime(event) {
     const video = this.videoRef.current;
-    // Seekbar change
-    if (event && event.target.value) {
+    if (event && event.target.value) { // Seekbar change
       video.currentTime = video.duration * (event.target.value / 100);
     }
     this.setSeekBar(video.duration, video.currentTime);
@@ -51,29 +58,21 @@ class VideoPlayer extends React.Component {
 
   forwardVideo() {
     const video = this.videoRef.current;
-    video.currentTime += (video.duration * 0.1);
+    video.playbackRate = (video.playbackRate + 0.1).toFixed(1);
   }
 
   rewindVideo() {
     const video = this.videoRef.current;
-    video.currentTime -= (video.duration * 0.1);
+    if (video.playbackRate > 0.1) {
+      video.playbackRate = (video.playbackRate - 0.1).toFixed(1);
+    }
   }
 
   render() {
     const {
-      isPlaying, videoTime, addVideoDuration, currentClip, togglePlay, clipSelected,
+      isPlaying, addVideoDuration,
       videoDuration,
     } = this.props;
-
-    // if (this.videoRef.current) {
-    //   if (this.videoRef.current.currentTime !== videoTime) {
-    //     this.videoRef.current.currentTime = videoTime;
-    //   }
-    //   if (this.videoRef.current.currentTime >= currentClip.endTime && clipSelected) {
-    //     this.videoRef.current.pause();
-    //     togglePlay(false);
-    //   }
-    // }
     return (
       <div className={styles.videoPlayer}>
         <div className={styles.videoWrapper}>
@@ -94,7 +93,10 @@ class VideoPlayer extends React.Component {
           onChange={this.updateVideoTime}
         />
         <div className={styles.videoControls}>
-          <p>{currentTimeDisplay(videoTime)}</p>
+          {this.videoRef.current ?
+            <p>{currentTimeDisplay(this.videoRef.current.currentTime)}</p>
+            : null
+          }
           <VideoControlButton
             className="backButton"
             icon="./assets/reverse.svg"
@@ -118,7 +120,10 @@ class VideoPlayer extends React.Component {
             icon="./assets/forward.svg"
             onClick={this.forwardVideo}
           />
-          <p>{remainingTime(videoTime, videoDuration)}</p>
+          {this.videoRef.current ?
+            <p>{remainingTime(this.videoRef.current.currentTime, videoDuration)}</p>
+            : null
+          }
         </div>
       </div>
     );
@@ -127,9 +132,7 @@ class VideoPlayer extends React.Component {
 
 VideoPlayer.propTypes = {
   togglePlay: PropTypes.func.isRequired,
-  // videoTimeChange: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  // videoTime: PropTypes.number.isRequired,
   addVideoDuration: PropTypes.func.isRequired,
   videoDuration: PropTypes.number.isRequired,
   currentClip: PropTypes.shape({
@@ -138,11 +141,6 @@ VideoPlayer.propTypes = {
     startTime: PropTypes.number,
     endTime: PropTypes.number,
   }).isRequired,
-  clipSelected: PropTypes.bool,
-};
-
-VideoPlayer.defaultProps = {
-  clipSelected: false,
 };
 
 export default VideoPlayer;

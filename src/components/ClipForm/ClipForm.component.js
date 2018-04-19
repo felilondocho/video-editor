@@ -13,6 +13,7 @@ class ClipForm extends React.Component {
       endTime: nextProps.currentClip.endTime,
     };
   }
+
   constructor(props) {
     super(props);
     this.state = ({ startTime: 0, endTime: 0, clipName: '' });
@@ -22,15 +23,19 @@ class ClipForm extends React.Component {
     this.saveForm = this.saveForm.bind(this);
     this.clearCurrentClip = this.clearCurrentClip.bind(this);
   }
+
   handleStartChange(event) {
     this.setState({ startTime: Number(event.target.value) });
   }
+
   handleEndChange(event) {
     this.setState({ endTime: Number(event.target.value) });
   }
+
   handleNameChange(event) {
     this.setState({ clipName: event.target.value });
   }
+
   saveForm() {
     const {
       editClip, currentClip, setCurrentClip,
@@ -43,6 +48,7 @@ class ClipForm extends React.Component {
     });
     setCurrentClip(currentClip.id, true);
   }
+
   clearCurrentClip() {
     const { setCurrentClip } = this.props;
     setCurrentClip({
@@ -52,6 +58,7 @@ class ClipForm extends React.Component {
       endTime: 0,
     }, false);
   }
+
   render() {
     const { currentClip } = this.props;
     return (
