@@ -1,6 +1,6 @@
 import {
   TOGGLE_PLAY, VIDEO_TIME_CHANGE, ADD_VIDEO_DURATION, ADD_CLIP,
-  EDIT_CLIP, SET_CURRENT_CLIP, REMOVE_CLIP,
+  EDIT_CLIP, SET_CURRENT_CLIP, REMOVE_CLIP, REMOVE_CURRENT_CLIP,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -44,6 +44,8 @@ export default function videoPlayerReducer(state = initialState, action = {}) {
         ...state,
         clips: state.clips.filter(clip => clip.id !== action.payload),
       };
+    case REMOVE_CURRENT_CLIP:
+      return { ...state, currentClip: {} };
     default:
       return state;
   }

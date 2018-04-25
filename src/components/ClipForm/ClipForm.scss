@@ -18,7 +18,7 @@
   button {
     background: transparent;
     border: 0;
-    width: 30px;
+    width: 20px;
     padding: 0;
     cursor: pointer;
     cursor: pointer;
@@ -30,7 +30,7 @@
 .formRow {
   display: flex;
   align-items: center;
-  margin: 20px;
+  margin: 5%;
   justify-content: space-around;
   & > * {
     width: 50%;

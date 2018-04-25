@@ -16,7 +16,7 @@ class ClipForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = ({ startTime: 0, endTime: 0, clipName: '' });
+    this.state = ({ startTime: '', endTime: '', clipName: '' });
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -40,27 +40,31 @@ class ClipForm extends React.Component {
     const {
       editClip, currentClip, setCurrentClip,
     } = this.props;
-    editClip({
-      id: currentClip.id,
-      clipName: this.state.clipName,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-    });
-    setCurrentClip(currentClip.id, true);
+    if (this.state.startTime < this.state.endTime) {
+      editClip({
+        id: currentClip.id,
+        clipName: this.state.clipName,
+        startTime: this.state.startTime,
+        endTime: this.state.endTime,
+      });
+      setCurrentClip(currentClip.id, true);
+    } else {
+      alert('Time not valid');
+    }
   }
 
   clearCurrentClip() {
-    const { setCurrentClip } = this.props;
-    setCurrentClip({
-      id: 0,
+    const { removeCurrentClip } = this.props;
+    this.setState({
       clipName: '',
-      startTime: 0,
-      endTime: 0,
-    }, false);
+      startTime: '',
+      endTime: '',
+    });
+    removeCurrentClip();
   }
 
   render() {
-    const { currentClip } = this.props;
+    const { currentClip, videoDuration } = this.props;
     return (
       <div className={styles.clipFormWrapper}>
         <div className={styles.formTop}>
@@ -76,24 +80,30 @@ class ClipForm extends React.Component {
               id="name"
             />
           </div>
-          <div className={styles.formRow}>
-            <label htmlFor="startTime">Start time</label>
-            <input
-              type="number"
-              value={this.state.startTime}
-              onChange={this.handleStartChange}
-              id="startTime"
-            />
-          </div>
-          <div className={styles.formRow}>
-            <label htmlFor="endTime">End time</label>
-            <input
-              type="number"
-              value={this.state.endTime}
-              onChange={this.handleEndChange}
-              id="endTime"
-            />
-          </div>
+          {videoDuration ?
+            <div className={styles.formRow}>
+              <label htmlFor="startTime">Start time</label>
+              <input
+                type="number"
+                value={this.state.startTime}
+                onChange={this.handleStartChange}
+                id="startTime"
+                min="0"
+                max={videoDuration}
+              />
+            </div> : null}
+          {videoDuration ?
+            <div className={styles.formRow}>
+              <label htmlFor="endTime">End time</label>
+              <input
+                type="number"
+                value={this.state.endTime}
+                onChange={this.handleEndChange}
+                id="endTime"
+                min="0"
+                max={videoDuration}
+              />
+            </div> : null }
           <div className={styles.formRow}>
             <button onClick={this.clearCurrentClip}>
               <img src="./assets/cancel.svg" alt="cancel" />
@@ -117,6 +127,8 @@ ClipForm.propTypes = {
   }).isRequired,
   editClip: PropTypes.func.isRequired,
   setCurrentClip: PropTypes.func.isRequired,
+  removeCurrentClip: PropTypes.func.isRequired,
+  videoDuration: PropTypes.number.isRequired,
 };
 
 export default ClipForm;

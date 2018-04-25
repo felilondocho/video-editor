@@ -5,3 +5,4 @@ export const ADD_CLIP = 'ADD_CLIP';
 export const EDIT_CLIP = 'EDIT_CLIP';
 export const REMOVE_CLIP = 'REMOVE_CLIP';
 export const SET_CURRENT_CLIP = 'SET_CURRENT_CLIP';
+export const REMOVE_CURRENT_CLIP = 'REMOVE_CURRENT_CLIP';

@@ -18,8 +18,8 @@ class VideoClips extends React.Component {
     const { addClip, clips } = this.props;
     const id = clips.length > 0 ? clips[clips.length - 1].id + 1 : 1;
     const clipName = `clip ${id}`;
-    const endTime = 0;
-    const startTime = 0;
+    const endTime = '';
+    const startTime = '';
     addClip({
       id, clipName, startTime, endTime,
     });

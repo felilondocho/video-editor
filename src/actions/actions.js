@@ -1,6 +1,6 @@
 import {
   TOGGLE_PLAY, VIDEO_TIME_CHANGE, ADD_VIDEO_DURATION, ADD_CLIP,
-  EDIT_CLIP, SET_CURRENT_CLIP, REMOVE_CLIP,
+  EDIT_CLIP, SET_CURRENT_CLIP, REMOVE_CLIP, REMOVE_CURRENT_CLIP,
 } from './actionTypes';
 
 export const togglePlay = isPlaying => ({
@@ -26,5 +26,7 @@ export const setCurrentClip = (id, clipSelected) => ({
     clipSelected,
   },
 });
+
+export const removeCurrentClip = () => ({ type: REMOVE_CURRENT_CLIP });
 
 export const removeClip = id => ({ type: REMOVE_CLIP, payload: id });
